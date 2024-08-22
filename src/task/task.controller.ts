@@ -10,12 +10,14 @@ import {
   Query,
   Redirect,
   Render,
+  UseGuards,
 } from '@nestjs/common';
 import { PrismaClient, Status, Task as TaskModel } from '@prisma/client';
 import { Task } from './create-task-dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 const prisma = new PrismaClient();
-
+@UseGuards(JwtAuthGuard)
 @Controller('task')
 export class TaskController {
   @Get()
