@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { PrismaClient, Status, Task as TaskModel } from '@prisma/client';
 import { Task } from './create-task-dto';
+import { GetUser } from 'src/common/decorators/user.decorator';
 
 const prisma = new PrismaClient();
 
@@ -82,9 +83,10 @@ export class TaskController {
 
   @Post('store')
   @Redirect('/task')
-  async store(@Body() task: Task) {
+  async store(@Body() task: Task, @GetUser('id') userId: number) {
     const data = {
       ...task,
+      userId,
       dueDate: new Date(task.dueDate),
     };
 
